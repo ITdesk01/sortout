@@ -51,7 +51,7 @@ sortout
 ![image](https://user-images.githubusercontent.com/38835844/112927415-867d5b80-9147-11eb-9e36-f39659003c88.png)
 
 
-**执行代码**
+**执行代码**（不要用root执行，不要root执行，不要root执行）
 ```      
       sh $sortout movie
 ```
@@ -74,7 +74,7 @@ sortout
 
 
 
-**执行代码**
+**执行代码**（不要用root执行，不要root执行，不要root执行）
 ```      
       sh $sortout anime
 ```
