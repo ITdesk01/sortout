@@ -13,6 +13,20 @@ dir_file="$( cd -P "$( dirname "$Source"  )" && pwd  )"
 anime_file="$dir_file/动漫"
 movie_file="$dir_file/电影"
 
+filter() {
+cat > /$dir_file/filter.txt<<EOF
+_电影_bilibili_哔哩哔哩
+-正片
+-粤语版
+-原版
+-普通话版
+【更多高清电影访问 www.BBQDDQ.com】
+梦幻天堂·龙网(www.LWgod.org).1080p.
+追光寻影 (www.zgxyi.com)
+【WEBRIP_1080P】
+【桜都】 - 完结番组 - 吐槽弹幕网 - tucao.one_
+EOF
+}
 
 movie() {
 	ls $movie_file  | grep -E "flv|mkv|mp4" >/tmp/movie_name.log
@@ -204,6 +218,21 @@ help() {
 	echo "PS： 如果sh \$sortout没有反应，建议先添加系统变量（要用管理员权限）"
 	echo "By:ITdesk"
 	echo "---------------------------------------------------------------------"
+
+}
+
+system_variable() {
+	if [[ ! -d "$dir_file/电影" ]]; then
+		mkdir  $dir_file/电影
+	fi
+
+	if [[ ! -d "$dir_file/动漫" ]]; then
+		mkdir  $dir_file/动漫
+	fi
+
+	if [ ! -f "$dir_file/filter.txt" ]; then
+		filter
+	fi
 
 }
 
