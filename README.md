@@ -13,7 +13,7 @@
 
 3.然后把电影和动漫按文件目录分类
 
-4.管理员执行sh sortout.sh sys_variable (加上变量以后，重启nas)
+4.管理员执行chmod 777 sortout.sh && sh sortout.sh sys_variable (加上变量以后， 给予权限，然后重启 )
 
 5.sh $sortout 查看命令使用
 
