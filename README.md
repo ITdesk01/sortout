@@ -57,7 +57,7 @@ sortout
 ```
 **整理后**
 
-![image](https://user-images.githubusercontent.com/38835844/112928827-e117b700-9149-11eb-9d75-5535dec81edb.png)
+![image](https://user-images.githubusercontent.com/38835844/112947346-429b4e00-9169-11eb-876f-7d135e9fc3b0.png)
 
 
 ![image](https://user-images.githubusercontent.com/38835844/112928790-d2c99b00-9149-11eb-807a-5d26d3db6384.png)
