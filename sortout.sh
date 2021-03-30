@@ -216,7 +216,8 @@ help() {
 	echo " sh \$sortout sys_variable  添加系统变量"
 	echo ""
 	echo "PS： 如果sh \$sortout没有反应，建议先添加系统变量（要用管理员权限）"
-	echo "By:ITdesk"
+	echo ""
+	echo "				By:ITdesk"
 	echo "---------------------------------------------------------------------"
 
 }
@@ -236,6 +237,7 @@ system_variable() {
 
 }
 
+system_variable
 action1="$1"
 action2="$2"
 if [ -z $action1 ]; then
