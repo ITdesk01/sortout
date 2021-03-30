@@ -10,8 +10,8 @@ while [ -h "$Source"  ]; do
     [[ $Source != /*  ]] && Source="$dir_file/$Source"
 done
 dir_file="$( cd -P "$( dirname "$Source"  )" && pwd  )"
-anime_file="$dir_file/anime"
-movie_file="$dir_file/movie"
+anime_file="$dir_file/动漫"
+movie_file="$dir_file/电影"
 
 filter() {
 cat > /$dir_file/filter.txt<<EOF
@@ -215,10 +215,11 @@ sys_variable() {
 
 help() {
 	echo "---------------------------------------------------------------------".
-	echo "命令如下"
-	echo " sh \$sortout movie 整理电影"
-	echo " sh \$sortout movie_out 把电影拿出来"
-	echo " sh \$sortout anime 整理动漫"
+	echo "sortout.sh命令如下"
+	echo ""
+	echo " sh \$sortout movie         整理电影"
+	echo " sh \$sortout movie_out     把电影拿出来"
+	echo " sh \$sortout anime         整理动漫"
 	echo " sh \$sortout sys_variable  添加系统变量"
 	echo ""
 	echo "PS： 如果sh \$sortout没有反应，建议先添加系统变量（要用管理员权限）"
@@ -229,12 +230,12 @@ help() {
 }
 
 system_variable() {
-	if [ ! -d "$dir_file/movie" ]; then
-		mkdir  $dir_file/movie
+	if [ ! -d "$dir_file/电影" ]; then
+		mkdir  $dir_file/电影
 	fi
 
-	if [ ! -d "$dir_file/anime" ]; then
-		mkdir  $dir_file/anime
+	if [ ! -d "$dir_file/动漫" ]; then
+		mkdir  $dir_file/动漫
 	fi
 
 	if [ ! -f "$dir_file/filter.txt" ]; then
