@@ -29,7 +29,7 @@ sortout
 └── filter.txt  （过滤关键字文本）
 ```
 
-## 例子：
+## 电影例子：
 **整理前**
 
 ![image](https://user-images.githubusercontent.com/38835844/112927366-736a8b80-9147-11eb-91e2-f83056cfe2b1.png)
@@ -42,6 +42,11 @@ sortout
       sh $sortout movie
 ```
 **整理后**
+
+![image](https://user-images.githubusercontent.com/38835844/112928827-e117b700-9149-11eb-9d75-5535dec81edb.png)
+
+
+![image](https://user-images.githubusercontent.com/38835844/112928790-d2c99b00-9149-11eb-807a-5d26d3db6384.png)
 
 
 
