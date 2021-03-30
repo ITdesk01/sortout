@@ -48,5 +48,25 @@ sortout
 
 ![image](https://user-images.githubusercontent.com/38835844/112928790-d2c99b00-9149-11eb-807a-5d26d3db6384.png)
 
+![image](https://user-images.githubusercontent.com/38835844/112929378-e32e4580-914a-11eb-8d33-3286958fe61f.png)
+
+
+## 动漫例子：
+**整理前**
+
+![image](https://user-images.githubusercontent.com/38835844/112929470-0fe25d00-914b-11eb-87b8-a6878e28222a.png)
+
+![image](https://user-images.githubusercontent.com/38835844/112929521-2f798580-914b-11eb-8804-9e6c33ae995d.png)
+
+
+
+**执行代码**
+```      
+      sh $sortout anime
+```
+**整理后**
+
+
+
 
 
