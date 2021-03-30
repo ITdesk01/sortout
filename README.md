@@ -1,4 +1,4 @@
-# sourtout
+# sortout
 用于电影或者动漫重命名，方便刮削
 
 ## 目录
@@ -33,7 +33,7 @@ PS：sh $sortout如果出现权限问题，请用管理员把这个文件删掉�
 ## ubuntu18.4使用办法
 ```
 
-1.git clone https://github.com/ITdesk01/sourtout.git
+1.git clone https://github.com/ITdesk01/sortout.git
 
 2.cd  sourtout && sh sortout.sh (创建文件夹)
 
