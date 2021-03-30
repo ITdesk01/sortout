@@ -10,8 +10,8 @@ while [ -h "$Source"  ]; do
     [[ $Source != /*  ]] && Source="$dir_file/$Source"
 done
 dir_file="$( cd -P "$( dirname "$Source"  )" && pwd  )"
-anime_file="$dir_file/动漫"
-movie_file="$dir_file/电影"
+anime_file="$dir_file/anime"
+movie_file="$dir_file/movie"
 
 filter() {
 cat > /$dir_file/filter.txt<<EOF
@@ -25,6 +25,8 @@ _电影_bilibili_哔哩哔哩
 追光寻影 (www.zgxyi.com)
 【WEBRIP_1080P】
 【桜都】 - 完结番组 - 吐槽弹幕网 - tucao.one_
+【BDRIP_1080P】
+tucao.one
 EOF
 }
 
@@ -72,6 +74,7 @@ movie() {
 		else
 			echo "将旧文件夹 $movie_file_name 重命名为 $movie_file_name_sort"
 			mv "$movie_file/$movie_file_name" "$movie_file/$movie_file_name_sort"
+			echo ""
 		fi
 		
 		cd $movie_file/$movie_file_name_sort
@@ -94,6 +97,7 @@ movie() {
 			else
 				echo "将旧文件名 $movie_content 重命名为 $movie_content_sort"
 				mv "$movie_file/$movie_file_name_sort/$movie_content" "$movie_file/$movie_file_name_sort/$movie_content_sort"
+				echo ""
 			fi
 			
 			nfo_if=$(ls $movie_file/$movie_file_name_sort | grep ".nfo")
@@ -144,28 +148,30 @@ anime() {
 				ls ./ >/tmp/anime_content.log
 				anime_content_num=$(cat /tmp/anime_content.log | wc -l)
 				while [ "$anime_content_num" -gt 0 ];do
-					cat /tmp/anime_content.log | awk -v a="$anime_content_num" 'NR==a{print $0}' > /tmp/anime_content_sort.log
+					anime_content=$(cat /tmp/anime_content.log | awk -v a="$anime_content_num" 'NR==a{print $0}')
+					echo $anime_content > /tmp/anime_content_sort.log
 					for i in `cat $dir_file/filter.txt`
 					do
 						sed -i "s/$i//g" /tmp/anime_content_sort.log 
 					done
-	
-					anime_content=$(cat /tmp/anime_content_sort.log)
+
+					E="E"
 					anime_content_if=$(echo "$anime_content" | grep "$anime_name" | wc -l )
 					anime_content_if2=$(echo "$anime_content" | grep "$anime_name $anime_seasons$E" | wc -l )
-					E="E"
-					
-					if [ "$anime_content_if" == "1" ];then
-						if [ "$anime_content_if2" == "1" ];then
+
+					if [ "$anime_content_if" -ge "1" ];then
+						if [ "$anime_content_if2" -ge "1" ];then
 							echo "已经修改过，不再操作"
 							anime_content_num=$(expr $anime_content_num - 1)
 						else
-							anime_content_sort=$(echo $anime_content  | sed "s/^[ \t]*//g" | sed "s/ //g" | sed "s/$anime_name/$anime_name $anime_seasons$E/")
+							anime_content_sort=$(cat /tmp/anime_content_sort.log  | sed "s/^[ \t]*//g" | sed "s/ //g" | sed "s/$anime_name/$anime_name $anime_seasons$E/")
+							echo "开始将旧文件$anime_content 重命名为 $anime_content_sort"
 							mv "$anime_content" "$anime_content_sort"
 							anime_content_num=$(expr $anime_content_num - 1)
 						fi
 					else
-							anime_content_sort=$(echo $anime_content  | sed "s/^[ \t]*//g" | sed "s/ //g" | sed "s/^/$anime_name $anime_seasons$E/")
+							anime_content_sort=$(cat /tmp/anime_content_sort.log  | sed "s/^[ \t]*//g" | sed "s/ //g" | sed "s/^/$anime_name $anime_seasons$E/")
+							echo "开始将旧文件$anime_content 重命名为 $anime_content_sort"
 							mv "$anime_content" "$anime_content_sort"
 							anime_content_num=$(expr $anime_content_num - 1)
 					fi
@@ -223,12 +229,12 @@ help() {
 }
 
 system_variable() {
-	if [[ ! -d "$dir_file/电影" ]]; then
-		mkdir  $dir_file/电影
+	if [ ! -d "$dir_file/movie" ]; then
+		mkdir  $dir_file/movie
 	fi
 
-	if [[ ! -d "$dir_file/动漫" ]]; then
-		mkdir  $dir_file/动漫
+	if [ ! -d "$dir_file/anime" ]; then
+		mkdir  $dir_file/anime
 	fi
 
 	if [ ! -f "$dir_file/filter.txt" ]; then
