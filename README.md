@@ -9,33 +9,15 @@
 * [动漫例子](#动漫例子)
 
 ## 测试平台
-
-      群辉（除了添加全局变量，建议不使用管理员权限运行脚本，防止群辉崩溃！！！）
       
       ubuntu 18.4
-
-## 群辉使用办法
-```
-1.先把sortout.sh下载到你的目录，坑爹的群辉wget
-
-2.cd 过去，然后执行sh sortout.sh，生成filter.txt（过滤文本） 动漫 电影（文件夹）
-
-3.然后把电影和动漫按文件目录分类
-
-4.管理员执行chmod 777 sortout.sh && sh sortout.sh sys_variable (加上变量以后， 给予权限，然后重启 )
-
-5.sh $sortout 查看命令使用
-
-PS：sh $sortout如果出现权限问题，请用管理员把这个文件删掉，复制一份新的，然后切换普通用户重新执行，群辉这个坑爹货，少用管理员跑脚本，容易挂
-
-```
 
 ## ubuntu18.4使用办法
 ```
 
 1.git clone https://github.com/ITdesk01/sortout.git
 
-2.cd  sourtout && sh sortout.sh (创建文件夹)
+2.cd  sourtout && sh sortout.sh (创建主要文件夹)
 
 3.把电影或者动漫放到目录下去，下面有例子
 
@@ -56,6 +38,22 @@ sortout
 └── filter.txt  （过滤关键字文本）
 ```
 
+**如果你有群辉电影文件需要整理可以这么做**
+```
+1.完成上面的操作
+
+2.挂载群辉nas文件夹到ubuntu，参考：https://blog.csdn.net/bairw_Bella/article/details/108449039
+
+3.删除sortout/电影  sortout/动漫 ，两个文件夹
+
+4.把挂载的nas/电影  nas/动漫 文件夹映射到 sortout/电影  sortout/动漫
+
+5.sh sortout.sh 查看说明开始测试
+
+```
+
+
+
 ## 电影例子：
 **整理前**
 
@@ -64,7 +62,7 @@ sortout
 ![image](https://user-images.githubusercontent.com/38835844/112927415-867d5b80-9147-11eb-9e36-f39659003c88.png)
 
 
-**执行代码**（不要用root执行，不要root执行，不要root执行）
+**执行代码**
 ```      
       sh $sortout movie
 ```
@@ -84,7 +82,7 @@ sortout
 ![image](https://user-images.githubusercontent.com/38835844/112947664-aaea2f80-9169-11eb-81e1-2cb2c148cfe9.png)
 
 
-**执行代码**（不要用root执行，不要root执行，不要root执行）
+**执行代码**
 ```      
       sh $sortout anime
 ```
