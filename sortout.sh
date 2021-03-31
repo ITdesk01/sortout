@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#set -x
+set -x
 
 #获取当前脚本目录copy脚本之家
 Source="$0"
@@ -13,23 +13,6 @@ dir_file="$( cd -P "$( dirname "$Source"  )" && pwd  )"
 anime_file="$dir_file/动漫"
 movie_file="$dir_file/电影"
 
-filter() {
-cat > /$dir_file/filter.txt<<EOF
-_电影_bilibili_哔哩哔哩
--正片
--粤语版
--原版
--普通话版
-【更多高清电影访问 www.BBQDDQ.com】
-梦幻天堂·龙网(www.LWgod.org).1080p.
-追光寻影 (www.zgxyi.com)
-【WEBRIP_1080P】
-【桜都】 - 完结番组 - 吐槽弹幕网 - tucao.one_
-【BDRIP_1080P】
-tucao.one
-EOF
-}
-
 movie() {
 	ls $movie_file  | grep -E "flv|mkv|mp4" >/tmp/movie_name.log
 	movie_num=$(cat /tmp/movie_name.log | wc -l)
@@ -39,7 +22,7 @@ movie() {
 		movie_name=$(cat /tmp/movie_name.log | awk -v a="$movie_num" 'NR==a{print $0}')
 		echo $movie_name >/tmp/movie_name_sort.log
 
-		for i in `cat $dir_file/filter.txt`
+		for i in `cat $dir_file/config/filter.txt`
 		do
 			sed -i "s/$i//g" /tmp/movie_name_sort.log 
 		done
@@ -62,7 +45,7 @@ movie() {
 		movie_file_name=$(cat /tmp/movie_file_name.log | awk -v a="$movie_file_num" 'NR==a{print $0}')
 		echo $movie_file_name >/tmp/movie_file_name_sort.log
 		 
-		for i in `cat $dir_file/filter.txt`
+		for i in `cat $dir_file/config/filter.txt`
 		do
 			sed -i "s/$i//g" /tmp/movie_file_name_sort.log 
 		done
@@ -85,7 +68,7 @@ movie() {
 			movie_content=$(cat /tmp/movie_content.log | awk -v a="$movie_content_num" 'NR==a{print $0}')
 			echo $movie_content >/tmp/movie_content_sort.log
 
-			for i in `cat $dir_file/filter.txt`
+			for i in `cat $dir_file/config/filter.txt`
 			do
 				sed -i "s/$i//g" /tmp/movie_content_sort.log 
 			done
@@ -150,7 +133,7 @@ anime() {
 				while [ "$anime_content_num" -gt 0 ];do
 					anime_content=$(cat /tmp/anime_content.log | awk -v a="$anime_content_num" 'NR==a{print $0}')
 					echo $anime_content > /tmp/anime_content_sort.log
-					for i in `cat $dir_file/filter.txt`
+					for i in `cat $dir_file/config/filter.txt`
 					do
 						sed -i "s/$i//g" /tmp/anime_content_sort.log 
 					done
@@ -230,19 +213,50 @@ help() {
 }
 
 system_variable() {
-	if [ ! -d "$dir_file/电影" ]; then
-		mkdir  $dir_file/电影
-	fi
+	config_file="$dir_file/config/sortout_config.txt"
+	filter_file=$(grep "filter_file" $config_file | awk -F "'" '{print $2}')
+	synology_user=$(grep "synology_user" $config_file | awk -F "'" '{print $2}')
+	synology_passwd=$(grep "synology_passwd" $config_file | awk -F "'" '{print $2}')
+	synology_ip=$(grep "synology_ip" $config_file | awk -F "'" '{print $2}')
+	synology_movie_file=$(grep "synology_movie_file" $config_file | awk -F "'" '{print $2}')
+	synology_anime_file=$(grep "synology_anime_file" $config_file | awk -F "'" '{print $2}')
+	
+	if [ `echo $synology_ip | wc -l ` == "1" ];then
+		mount_file
+	else
+		if [ ! -d "$dir_file/电影" ]; then
+			mkdir  $dir_file/电影
+		fi
 
-	if [ ! -d "$dir_file/动漫" ]; then
-		mkdir  $dir_file/动漫
+		if [ ! -d "$dir_file/动漫" ]; then
+			mkdir  $dir_file/动漫
+		fi
 	fi
-
-	if [ ! -f "$dir_file/filter.txt" ]; then
-		filter
-	fi
+	
+	
 
 }
+
+mount_file() {
+	#检测是否挂载
+	mount_movie_file_if=$(mount | grep "$movie_file" | wc -l)
+	mount_anime_file_if=$(mount | grep "$anime_file" | wc -l)
+
+	if [ $mount_movie_file_if == "1" ];then
+		echo "群晖movie文件已经挂载"
+	else
+		echo "开始挂载群晖movie文件到$movie_file"
+		sudo mount -t cifs -o username=$synology_user,password=$synology_passwd,vers=1.0 //$synology_ip/$synology_movie_file $movie_file
+	fi
+	
+	if [ $mount_anime_file_if == "1" ];then
+		echo "群晖anime文件已经挂载"
+	else
+		echo "开始挂载群晖anime文件到$anime_file"
+		sudo mount -t cifs -o username=$synology_user,password=$synology_passwd,vers=1.0 //$synology_ip/$synology_movie_file $anime_file
+	fi
+}
+
 
 system_variable
 action1="$1"
