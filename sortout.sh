@@ -147,7 +147,6 @@ anime() {
 			echo -e "$green 动漫文件夹,没有分几季，暂停脚本$white"
 			exit 0
 		fi
-		read a
 			for anime_seasons in `cat /tmp/anime_seasons.log`
 			do
 				cd $anime_seasons
