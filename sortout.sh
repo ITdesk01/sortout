@@ -1,24 +1,35 @@
-#!/bin/sh
+#!/bin/bash
 
-set -x
+#set -x
 
 #获取当前脚本目录copy脚本之家
 Source="$0"
-while [ -h "$Source"  ]; do
+while [[ -h "$Source"  ]]; do
     dir_file="$( cd -P "$( dirname "$Source"  )" && pwd  )"
     Source="$(readlink "$Source")"
     [[ $Source != /*  ]] && Source="$dir_file/$Source"
 done
 dir_file="$( cd -P "$( dirname "$Source"  )" && pwd  )"
+
 anime_file="$dir_file/动漫"
 movie_file="$dir_file/电影"
+
+#颜色调整参考wen55333
+red="\033[31m"
+green="\033[32m"
+yellow="\033[33m"
+white="\033[0m"
 
 movie() {
 	ls $movie_file  | grep -E "flv|mkv|mp4" >/tmp/movie_name.log
 	movie_num=$(cat /tmp/movie_name.log | wc -l)
 
+	if [[ "$movie_num" == "0" ]];then
+		echo -e "$green 电影文件夹空空如也，你在逗我。。。。$white"
+		exit 0
+	fi
 	#整理电影名字，然后创建文件夹
-	while [ "$movie_num" -gt 0 ];do
+	while [[ "$movie_num" -gt 0 ]];do
 		movie_name=$(cat /tmp/movie_name.log | awk -v a="$movie_num" 'NR==a{print $0}')
 		echo $movie_name >/tmp/movie_name_sort.log
 
@@ -27,7 +38,7 @@ movie() {
 			sed -i "s/$i//g" /tmp/movie_name_sort.log 
 		done
 	
-		movie_name_sort=$(cat /tmp/movie_name_sort.log | sed "s/^[ \t]*//g" | sed "s/ //g")
+		movie_name_sort=$(cat /tmp/movie_name_sort.log | sed "s/^[[ \t]]*//g" | sed "s/ //g")
 		movie_name_mk=$(echo  $movie_name_sort | awk -F "." '{print $1}' )
 		
 		echo "将旧文件 $movie_name 重命名为 $movie_name_sort"
@@ -41,7 +52,7 @@ movie() {
 	ls $movie_file >/tmp/movie_file_name.log
 	movie_file_num=$(cat /tmp/movie_file_name.log | wc -l)
 
-	while [ "$movie_file_num" -gt 0 ];do
+	while [[ "$movie_file_num" -gt 0 ]];do
 		movie_file_name=$(cat /tmp/movie_file_name.log | awk -v a="$movie_file_num" 'NR==a{print $0}')
 		echo $movie_file_name >/tmp/movie_file_name_sort.log
 		 
@@ -50,9 +61,9 @@ movie() {
 			sed -i "s/$i//g" /tmp/movie_file_name_sort.log 
 		done
 	
-		movie_file_name_sort=$(cat /tmp/movie_file_name_sort.log | sed "s/^[ \t]*//g" | sed "s/ //g")
+		movie_file_name_sort=$(cat /tmp/movie_file_name_sort.log | sed "s/^[[ \t]]*//g" | sed "s/ //g")
 		
-		if [ "$movie_file_name" == "$movie_file_name_sort" ];then
+		if [[ "$movie_file_name" == "$movie_file_name_sort" ]];then
 			echo "文件夹一致不更改"
 		else
 			echo "将旧文件夹 $movie_file_name 重命名为 $movie_file_name_sort"
@@ -64,7 +75,7 @@ movie() {
 		ls ./ | grep -v ".torrent" > /tmp/movie_content.log
 		movie_content_num=$(cat /tmp/movie_content.log | wc -l)
 
-		while [ "$movie_content_num" -gt 0 ];do
+		while [[ "$movie_content_num" -gt 0 ]];do
 			movie_content=$(cat /tmp/movie_content.log | awk -v a="$movie_content_num" 'NR==a{print $0}')
 			echo $movie_content >/tmp/movie_content_sort.log
 
@@ -73,9 +84,9 @@ movie() {
 				sed -i "s/$i//g" /tmp/movie_content_sort.log 
 			done
 			
-			movie_content_sort=$(cat /tmp/movie_content_sort.log | sed "s/^[ \t]*//g" | sed "s/ //g")
+			movie_content_sort=$(cat /tmp/movie_content_sort.log | sed "s/^[[ \t]]*//g" | sed "s/ //g")
 		
-			if [ "$movie_content" == "$movie_content_sort" ];then
+			if [[ "$movie_content" == "$movie_content_sort" ]];then
 				echo "文件名一致不更改"
 			else
 				echo "将旧文件名 $movie_content 重命名为 $movie_content_sort"
@@ -84,7 +95,7 @@ movie() {
 			fi
 			
 			nfo_if=$(ls $movie_file/$movie_file_name_sort | grep ".nfo")
-			if [ ! $nfo_if ];then
+			if [[ ! $nfo_if ]];then
 				echo "没有nfo文件跳过"
 			else
 				
@@ -106,7 +117,7 @@ movie_out() {
 	do
 		cd $movie_file/$i
 		movie_name=$(ls ./)
-		if [ ! $movie_name  ];then
+		if [[ ! $movie_name  ]];then
 			rm -rf $movie_file/$i
 		else
 			mv $movie_name $movie_file
@@ -120,6 +131,12 @@ anime() {
 	cd $anime_file
 	#获取当前文件夹有多少动漫目录
 	ls $anime_file | grep -v "flv$" >/tmp/anime_name.log
+	anime_num=$(cat /tmp/anime_name.log | wc -l)
+
+	if [[ "$anime_num" == "0" ]];then
+		echo -e "$green 动漫文件夹空空如也，你在逗我。。。。$white"
+		exit 0
+	fi
 
 	for anime_name in `cat /tmp/anime_name.log`
 	do
@@ -130,7 +147,7 @@ anime() {
 				cd $anime_seasons
 				ls ./ >/tmp/anime_content.log
 				anime_content_num=$(cat /tmp/anime_content.log | wc -l)
-				while [ "$anime_content_num" -gt 0 ];do
+				while [[ "$anime_content_num" -gt 0 ]];do
 					anime_content=$(cat /tmp/anime_content.log | awk -v a="$anime_content_num" 'NR==a{print $0}')
 					echo $anime_content > /tmp/anime_content_sort.log
 					for i in `cat $dir_file/config/filter.txt`
@@ -142,70 +159,43 @@ anime() {
 					anime_content_if=$(echo "$anime_content" | grep "$anime_name" | wc -l )
 					anime_content_if2=$(echo "$anime_content" | grep "$anime_name $anime_seasons$E" | wc -l )
 
-					if [ "$anime_content_if" -ge "1" ];then
-						if [ "$anime_content_if2" -ge "1" ];then
-							echo "已经修改过，不再操作"
+					if [[ "$anime_content_if" -ge "1" ]];then
+						if [[ "$anime_content_if2" -ge "1" ]];then
+							anime_content_sort=$(cat /tmp/anime_content_sort.log)
+							echo -e "$yellow【$anime_content_sort】$white 已经修改过，不再操作"
 							anime_content_num=$(expr $anime_content_num - 1)
 						else
-							anime_content_sort=$(cat /tmp/anime_content_sort.log  | sed "s/^[ \t]*//g" | sed "s/ //g" | sed "s/$anime_name/$anime_name $anime_seasons$E/")
-							echo "开始将旧文件$anime_content 重命名为 $anime_content_sort"
+							anime_content_sort=$(cat /tmp/anime_content_sort.log  | sed "s/^[[ \t]]*//g" | sed "s/ //g" | sed "s/$anime_name/$anime_name $anime_seasons$E/")
+							echo -e "开始将旧文件$yellow$anime_content$white 重命名为 $green$anime_content_sort$white"
 							mv "$anime_content" "$anime_content_sort"
 							anime_content_num=$(expr $anime_content_num - 1)
 						fi
 					else
-							anime_content_sort=$(cat /tmp/anime_content_sort.log  | sed "s/^[ \t]*//g" | sed "s/ //g" | sed "s/^/$anime_name $anime_seasons$E/")
-							echo "开始将旧文件$anime_content 重命名为 $anime_content_sort"
+							anime_content_sort=$(cat /tmp/anime_content_sort.log  | sed "s/^[[ \t]]*//g" | sed "s/ //g" | sed "s/^/$anime_name $anime_seasons$E/")
+							echo -e "开始将旧文件$yellow$anime_content$white 重命名为 $green$anime_content_sort$white"
 							mv "$anime_content" "$anime_content_sort"
 							anime_content_num=$(expr $anime_content_num - 1)
 					fi
 				done
 				cd ..
 			done
+			echo ""
 			cd $anime_file/$anime_name
 	done
 
 }
 
-anime_del_nfo() {
-	
-	echo ""
-}
-
-sys_variable() {
-	#添加系统变量
-	read -p "你要添加系统变量还是删除(1.添加 2.删除) ：" sys_variable_num
-	echo "开始检测是否存在之前的变量"
-	sleep 2
-	sortout_path=$(cat /etc/profile | grep -o sortout.sh | wc -l)
-	
-	if [ "$sys_variable_num" == "1" ]; then
-		if [ $sortout_path -gt "1"  ];then
-			echo "检测到已经存在变量，请删除以后再重新添加"
-		else
-			echo "export sortout_file=$dir_file" >> /etc/profile
-			echo "export sortout=$dir_file/sortout.sh" >> /etc/profile
-			echo "添加完成，重启以后生效"
-		fi
-	elif [ "$sys_variable_num" == "2" ];then
-		echo "开始删除之前的变量"
-		sed -i "/sortout/d" /etc/profile
-		echo "删除完成"	
-	fi
-}
-
-
-
 
 help() {
 	echo "---------------------------------------------------------------------".
-	echo "sortout.sh命令如下"
+	echo "			     SortOut"
+	echo "命令如下"
 	echo ""
-	echo " sh \$sortout movie         整理电影"
-	echo " sh \$sortout movie_out     把电影拿出来"
-	echo " sh \$sortout anime         整理动漫"
-	echo " sh \$sortout sys_variable  添加系统变量"
+	echo -e  "$green bash \$sortout movie$white         整理电影"
 	echo ""
-	echo "PS： 如果sh \$sortout没有反应，建议先添加系统变量（要用管理员权限）"
+	echo -e  "$green bash \$sortout movie_out$white     把电影从文件夹里面拿出来"
+	echo ""
+	echo -e  "$green bash \$sortout anime$white         整理动漫"
 	echo ""
 	echo "				By:ITdesk"
 	echo "---------------------------------------------------------------------"
@@ -213,6 +203,31 @@ help() {
 }
 
 system_variable() {
+	clear
+	#添加系统变量
+	sortout_path=$(cat /etc/profile | grep -o sortout.sh | wc -l)
+	sortout_file_path=$(cat /etc/profile | grep -o sortout_file | wc -l)
+	if [[ "$sortout_file_path" == "0" ]]; then
+		echo "开始添加系统变量"
+		echo "export sortout_file=$dir_file" | sudo tee -a /etc/profile
+		source /etc/profile
+		echo "建议重启系统以生效"
+	elif [[ "$sortout_path" == "0" ]]; then
+		echo "export sortout=$dir_file/sortout.sh" | sudo tee -a /etc/profile
+		source /etc/profile
+	else
+		echo "系统变量已经添加"
+	fi
+
+
+	if [[ ! -d "$dir_file/电影" ]]; then
+		mkdir  $dir_file/电影
+	fi
+
+	if [[ ! -d "$dir_file/动漫" ]]; then
+		mkdir  $dir_file/动漫
+	fi
+
 	config_file="$dir_file/config/sortout_config.txt"
 	filter_file=$(grep "filter_file" $config_file | awk -F "'" '{print $2}')
 	synology_user=$(grep "synology_user" $config_file | awk -F "'" '{print $2}')
@@ -221,20 +236,14 @@ system_variable() {
 	synology_movie_file=$(grep "synology_movie_file" $config_file | awk -F "'" '{print $2}')
 	synology_anime_file=$(grep "synology_anime_file" $config_file | awk -F "'" '{print $2}')
 	
-	if [ `echo $synology_ip | wc -l ` == "1" ];then
-		mount_file
+	if [[ "$action1" == "umount_file" ]];then
+		$action1
 	else
-		if [ ! -d "$dir_file/电影" ]; then
-			mkdir  $dir_file/电影
-		fi
-
-		if [ ! -d "$dir_file/动漫" ]; then
-			mkdir  $dir_file/动漫
+		if [[ `echo $synology_ip | wc -l ` == "1" ]];then
+			mount_file
+			clear
 		fi
 	fi
-	
-	
-
 }
 
 mount_file() {
@@ -242,30 +251,64 @@ mount_file() {
 	mount_movie_file_if=$(mount | grep "$movie_file" | wc -l)
 	mount_anime_file_if=$(mount | grep "$anime_file" | wc -l)
 
-	if [ $mount_movie_file_if == "1" ];then
+	if [[ ! $synology_user ]];then
+		echo "用户名：为空"
+		exit 0
+	fi
+
+	if [[ ! $synology_passwd ]];then
+		echo "密码：为空"
+		exit 0
+	fi
+
+	if [[ ! $synology_movie_file ]];then
+		echo "群晖电影目录：为空"
+		exit 0
+	fi
+
+	if [[ ! $synology_anime_file ]];then
+		echo "群晖动漫目录：为空"
+		exit 0
+	fi
+
+	if [[ $mount_movie_file_if == "1" ]];then
+		echo ""
 		echo "群晖movie文件已经挂载"
 	else
 		echo "开始挂载群晖movie文件到$movie_file"
 		sudo mount -t cifs -o username=$synology_user,password=$synology_passwd,vers=1.0 //$synology_ip/$synology_movie_file $movie_file
+		sudo chmod -R 777 $movie_file
 	fi
 	
-	if [ $mount_anime_file_if == "1" ];then
+	if [[ $mount_anime_file_if == "1" ]];then
+		echo ""
 		echo "群晖anime文件已经挂载"
 	else
 		echo "开始挂载群晖anime文件到$anime_file"
-		sudo mount -t cifs -o username=$synology_user,password=$synology_passwd,vers=1.0 //$synology_ip/$synology_movie_file $anime_file
+		sudo mount -t cifs -o username=$synology_user,password=$synology_passwd,vers=1.0 //$synology_ip/$synology_anime_file $anime_file
+		sudo chmod -R 777 $anime_file
 	fi
+	echo "挂载结束，如果没有报错就是成功了，如果失败请检查你的目录文件是否正确"
+}
+
+umount_file() {
+	echo ">> 开始卸载挂载的群晖文件"
+	echo "开始卸载群晖movie文件夹"
+	sudo umount $movie_file && sleep 2
+	echo "开始卸载群晖anime文件夹"
+	sudo umount $anime_file && sleep 2
+	echo "卸载结束"
 }
 
 
 system_variable
 action1="$1"
 action2="$2"
-if [ -z $action1 ]; then
+if [[ -z $action1 ]]; then
 	help
 else
 	case "$action1" in
-		movie|movie_out|anime|sys_variable)
+		movie|movie_out|anime|umount_file)
 		$action1
 		;;
 		*)
@@ -273,11 +316,11 @@ else
 		;;
 	esac
 
-	if [ -z $action2 ]; then
+	if [[ -z $action2 ]]; then
 		echo ""
 	else
 		case "$action2" in
-			movie|movie_out|anime|sys_variable)
+			movie|movie_out|anime|umount_file)
 			$action2
 			;;
 			*)

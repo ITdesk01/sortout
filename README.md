@@ -17,7 +17,7 @@
 
 1.git clone https://github.com/ITdesk01/sortout.git
 
-2.cd  sourtout && sh sortout.sh (创建主要文件夹)
+2.cd  sourtout && bash sortout.sh (创建主要文件夹)
 
 3.把电影或者动漫放到目录下去，下面有例子
 
@@ -48,7 +48,7 @@ sortout
 
 4.把挂载的nas/电影  nas/动漫 文件夹映射到 sortout/电影  sortout/动漫
 
-5.sh sortout.sh 查看说明开始测试
+5.bash sortout.sh 查看说明开始测试
 
 ```
 
@@ -63,7 +63,7 @@ sortout
 
 
 **执行代码**
-```      
+```
       sh $sortout movie
 ```
 **整理后**
@@ -83,7 +83,7 @@ sortout
 
 
 **执行代码**
-```      
+```
       sh $sortout anime
 ```
 **整理后**
