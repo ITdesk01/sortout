@@ -142,6 +142,12 @@ anime() {
 	do
 		cd $anime_file/$anime_name
 		ls ./ >/tmp/anime_seasons.log
+		anime_seasons_num=$(cat /tmp/anime_seasons.log | grep -E "S01|S02|S03|S04|S05|S06|S07|S08|S09|S10"| wc -l)
+		if [[ "$anime_seasons_num" == "0" ]];then
+			echo -e "$green 动漫文件夹,没有分几季，暂停脚本$white"
+			exit 0
+		fi
+		read a
 			for anime_seasons in `cat /tmp/anime_seasons.log`
 			do
 				cd $anime_seasons
