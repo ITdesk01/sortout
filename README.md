@@ -62,9 +62,7 @@ PS：如果一直有问题挂载不上去你可以参考连接手动挂载，判
 ## 电影例子：
 **整理前**
 
-![image](https://user-images.githubusercontent.com/38835844/112927366-736a8b80-9147-11eb-91e2-f83056cfe2b1.png)
-
-![image](https://user-images.githubusercontent.com/38835844/112927415-867d5b80-9147-11eb-9e36-f39659003c88.png)
+![image](https://user-images.githubusercontent.com/38835844/113305148-51cef700-9335-11eb-9a16-cceb7b36ceca.png)
 
 
 **执行代码**
@@ -73,12 +71,11 @@ PS：如果一直有问题挂载不上去你可以参考连接手动挂载，判
 ```
 **整理后**
 
-![image](https://user-images.githubusercontent.com/38835844/112947346-429b4e00-9169-11eb-876f-7d135e9fc3b0.png)
+![image](https://user-images.githubusercontent.com/38835844/113305719-e5a0c300-9335-11eb-96c0-a60b3b2e9bf6.png)
 
 
-![image](https://user-images.githubusercontent.com/38835844/112928790-d2c99b00-9149-11eb-807a-5d26d3db6384.png)
+![image](https://user-images.githubusercontent.com/38835844/113305888-1254da80-9336-11eb-99b5-6646321f8a8e.png)
 
-![image](https://user-images.githubusercontent.com/38835844/112929378-e32e4580-914a-11eb-8d33-3286958fe61f.png)
 
 
 ## 动漫例子：
