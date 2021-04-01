@@ -8,19 +8,19 @@ filter_file='config/filter.txt'
 
 -------群晖挂载-----------	
 ##群晖用户名
-synology_user=''
+synology_user='admin'
 
 ##群晖密码
-synology_passwd=''
+synology_passwd='ITdesk003'
 
 ##群晖IP
-synology_ip=''
+synology_ip='192.168.10.239'
 
 ##群晖电影目录
-synology_movie_file=''
+synology_movie_file='希捷2T/downloads/电影'
 
 ##群晖电影目录
-synology_anime_file=''
+synology_anime_file='希捷2T/downloads/动漫'
 
 PS：群晖挂载的值要么一个不填要么全部填好
 -------------------------

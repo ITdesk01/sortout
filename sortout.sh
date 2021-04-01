@@ -24,10 +24,6 @@ movie() {
 	ls $movie_file  | grep -E "flv|mkv|mp4" >/tmp/movie_name.log
 	movie_num=$(cat /tmp/movie_name.log | wc -l)
 
-	if [[ "$movie_num" == "0" ]];then
-		echo -e "$green 电影文件夹空空如也，你在逗我。。。。$white"
-		exit 0
-	fi
 	#整理电影名字，然后创建文件夹
 	while [[ "$movie_num" -gt 0 ]];do
 		movie_name=$(cat /tmp/movie_name.log | awk -v a="$movie_num" 'NR==a{print $0}')
@@ -51,6 +47,10 @@ movie() {
 	#整理一下已经有的文件夹
 	ls $movie_file >/tmp/movie_file_name.log
 	movie_file_num=$(cat /tmp/movie_file_name.log | wc -l)
+	if [[ "$movie_file_num" == "0" ]];then
+		echo -e "$green 电影文件夹空空如也，你在逗我。。。。$white"
+		exit 0
+	fi
 
 	while [[ "$movie_file_num" -gt 0 ]];do
 		movie_file_name=$(cat /tmp/movie_file_name.log | awk -v a="$movie_file_num" 'NR==a{print $0}')
