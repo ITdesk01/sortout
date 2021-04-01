@@ -28,27 +28,32 @@
 sortout
 ├── 电影（文件夹）
 │   └── XXXX电影.后缀名
+│
 ├── 动漫（文件夹）
 │   └── XXXX.动漫
 │         ├──S01  第一季
 │         ├──S02  第二季
 │         └──以此类推.....
-│ 
-├── sortout.sh  （核心脚本）
-└── filter.txt  （过滤关键字文本）
+│
+├── config （配置文件夹）
+|    ├── sortout_config.txt（配置文件）
+│    └── filter.txt （过滤关键字文本）
+│         
+└── sortout.sh  （核心脚本）
 ```
 
 **如果你有群辉电影文件需要整理可以这么做**
 ```
 1.完成上面的操作
 
-2.挂载群辉nas文件夹到ubuntu，参考：https://blog.csdn.net/bairw_Bella/article/details/108449039
+2.config/sortout_config.txt填上参数
 
-3.删除sortout/电影  sortout/动漫 ，两个文件夹
+3.bash sortout.sh 开始挂载
 
-4.把挂载的nas/电影  nas/动漫 文件夹映射到 sortout/电影  sortout/动漫
+PS：如果一直有问题挂载不上去你可以参考连接手动挂载，判断是否自己填错了
 
-5.bash sortout.sh 查看说明开始测试
+挂载群辉nas文件夹到ubuntu，参考：https://blog.csdn.net/bairw_Bella/article/details/108449039
+
 
 ```
 
