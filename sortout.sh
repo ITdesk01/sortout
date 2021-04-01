@@ -41,7 +41,7 @@ movie() {
 		movie_name_sort=$(cat /tmp/movie_name_sort.log | sed "s/^[[ \t]]*//g" | sed "s/ //g")
 		movie_name_mk=$(echo  $movie_name_sort | awk -F "." '{print $1}' )
 		
-		echo "将旧文件 $movie_name 重命名为 $movie_name_sort"
+		echo -e "将旧文件$yellow $movie_name$white 重命名为 $green$movie_name_sort$white"
 		mv "$movie_file/$movie_name" "$movie_file/$movie_name_sort"
 		mkdir $movie_file/$movie_name_mk
 		mv $movie_file/$movie_name_sort $movie_file/$movie_name_mk
@@ -64,9 +64,9 @@ movie() {
 		movie_file_name_sort=$(cat /tmp/movie_file_name_sort.log | sed "s/^[[ \t]]*//g" | sed "s/ //g")
 		
 		if [[ "$movie_file_name" == "$movie_file_name_sort" ]];then
-			echo "文件夹一致不更改"
+			echo -e "$yellow【$movie_file_name】$white文件夹一致不更改"
 		else
-			echo "将旧文件夹 $movie_file_name 重命名为 $movie_file_name_sort"
+			echo -e "将旧文件夹 $yellow$movie_file_name$white 重命名为 $green$movie_file_name_sort$white"
 			mv "$movie_file/$movie_file_name" "$movie_file/$movie_file_name_sort"
 			echo ""
 		fi
@@ -87,9 +87,9 @@ movie() {
 			movie_content_sort=$(cat /tmp/movie_content_sort.log | sed "s/^[[ \t]]*//g" | sed "s/ //g")
 		
 			if [[ "$movie_content" == "$movie_content_sort" ]];then
-				echo "文件名一致不更改"
+				echo -e "$yellow【$movie_content】$white文件名一致不更改"
 			else
-				echo "将旧文件名 $movie_content 重命名为 $movie_content_sort"
+				echo -e "将旧文件名 $white$movie_content$white 重命名为 $green$movie_content_sort$white"
 				mv "$movie_file/$movie_file_name_sort/$movie_content" "$movie_file/$movie_file_name_sort/$movie_content_sort"
 				echo ""
 			fi
