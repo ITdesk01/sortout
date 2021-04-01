@@ -81,7 +81,6 @@ PS：如果一直有问题挂载不上去你可以参考连接手动挂载，判
 ## 动漫例子：
 **整理前**
 
-![image](https://user-images.githubusercontent.com/38835844/112947664-aaea2f80-9169-11eb-81e1-2cb2c148cfe9.png)
 
 
 **执行代码**
@@ -90,9 +89,6 @@ PS：如果一直有问题挂载不上去你可以参考连接手动挂载，判
 ```
 **整理后**
 
-![image](https://user-images.githubusercontent.com/38835844/112948122-3f549200-916a-11eb-8121-c61208bf44ea.png)
-
-![image](https://user-images.githubusercontent.com/38835844/112948205-5bf0ca00-916a-11eb-900a-6ec582ac651d.png)
 
 
 
