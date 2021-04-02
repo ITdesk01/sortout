@@ -153,8 +153,10 @@ anime() {
 				cd $anime_seasons
 				ls ./ >/tmp/anime_content.log
 				anime_content_num=$(cat /tmp/anime_content.log | wc -l)
-				while [[ "$anime_content_num" -gt 0 ]];do
-					anime_content=$(cat /tmp/anime_content.log | awk -v a="$anime_content_num" 'NR==a{print $0}')
+				num1="1"
+				echo -e "$green[$anime_name $anime_seasons]$white"
+				while [[ `expr $anime_content_num + 1` -gt "$num1" ]];do
+					anime_content=$(cat /tmp/anime_content.log | awk -v a="$num1" 'NR==a{print $0}')
 					echo $anime_content > /tmp/anime_content_sort.log
 					for i in `cat $dir_file/config/filter.txt`
 					do
@@ -169,18 +171,18 @@ anime() {
 						if [[ "$anime_content_if2" -ge "1" ]];then
 							anime_content_sort=$(cat /tmp/anime_content_sort.log)
 							echo -e "$yellow【$anime_content_sort】$white 已经修改过，不再操作"
-							anime_content_num=$(expr $anime_content_num - 1)
+							num1=$(expr $num1 + 1)
 						else
 							anime_content_sort=$(cat /tmp/anime_content_sort.log  | sed "s/^[[ \t]]*//g" | sed "s/ //g" | sed "s/$anime_name/$anime_name $anime_seasons$E/")
 							echo -e "开始将旧文件$yellow$anime_content$white 重命名为 $green$anime_content_sort$white"
 							mv "$anime_content" "$anime_content_sort"
-							anime_content_num=$(expr $anime_content_num - 1)
+							num1=$(expr $num1 + 1)
 						fi
 					else
 							anime_content_sort=$(cat /tmp/anime_content_sort.log  | sed "s/^[[ \t]]*//g" | sed "s/ //g" | sed "s/^/$anime_name $anime_seasons$E/")
 							echo -e "开始将旧文件$yellow$anime_content$white 重命名为 $green$anime_content_sort$white"
 							mv "$anime_content" "$anime_content_sort"
-							anime_content_num=$(expr $anime_content_num - 1)
+							num1=$(expr $num1 + 1)
 					fi
 				done
 				echo ""
