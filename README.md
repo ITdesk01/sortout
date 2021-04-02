@@ -81,6 +81,8 @@ PS：如果一直有问题挂载不上去你可以参考连接手动挂载，判
 ## 动漫例子：
 **整理前**
 
+![image](https://user-images.githubusercontent.com/38835844/113399985-afb21c00-93d3-11eb-99d1-45e3e52d92d8.png)
+
 
 
 **执行代码**
@@ -88,6 +90,11 @@ PS：如果一直有问题挂载不上去你可以参考连接手动挂载，判
       sh $sortout anime
 ```
 **整理后**
+
+![image](https://user-images.githubusercontent.com/38835844/113400066-d1ab9e80-93d3-11eb-822d-f6d923fd2a0c.png)
+
+
+![image](https://user-images.githubusercontent.com/38835844/113400218-091a4b00-93d4-11eb-995e-a6366d9e826c.png)
 
 
 
