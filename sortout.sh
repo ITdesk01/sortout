@@ -21,6 +21,7 @@ yellow="\033[33m"
 white="\033[0m"
 
 movie() {
+	sudo chmod -R 777 $movie_file
 	ls $movie_file  | grep -E "flv|mkv|mp4" >/tmp/movie_name.log
 	movie_num=$(cat /tmp/movie_name.log | wc -l)
 
@@ -128,7 +129,7 @@ movie_out() {
 }
 
 anime() {
-	cd $anime_file
+	sudo chmod -R 777 $anime_file
 	#获取当前文件夹有多少动漫目录
 	ls $anime_file | grep -v "flv$" >/tmp/anime_name.log
 	anime_num=$(cat /tmp/anime_name.log | wc -l)
@@ -182,7 +183,8 @@ anime() {
 							anime_content_num=$(expr $anime_content_num - 1)
 					fi
 				done
-				cd ..
+				echo ""
+				cd $anime_file/$anime_name
 			done
 			echo ""
 			cd $anime_file/$anime_name
