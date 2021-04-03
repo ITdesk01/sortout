@@ -17,7 +17,7 @@
 
 1.git clone https://github.com/ITdesk01/sortout.git
 
-2.cd  sourtout && bash sortout.sh (创建主要文件夹)
+2.cd  sortout && bash sortout.sh (创建主要文件夹)
 
 3.把电影或者动漫放到目录下去，下面有例子
 
