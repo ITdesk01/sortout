@@ -41,6 +41,7 @@ movie() {
 		echo -e "将旧文件$yellow $movie_name$white 重命名为 $green$movie_name_sort$white"
 		mv "$movie_file/$movie_name" "$movie_file/$movie_name_sort"
 		mkdir $movie_file/$movie_name_mk
+		sudo chmod -R 777 $movie_file
 		mv $movie_file/$movie_name_sort $movie_file/$movie_name_mk
 		movie_num=$(expr $movie_num - 1)
 	done
