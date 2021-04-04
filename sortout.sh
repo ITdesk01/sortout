@@ -133,16 +133,41 @@ anime() {
 	sudo chmod -R 777 $anime_file
 	#获取当前文件夹有多少动漫目录
 	ls $anime_file | grep -v "flv$" >/tmp/anime_name.log
+	ls $anime_file | grep -v "flv$" >/tmp/old_anime_name.log
 	anime_num=$(cat /tmp/anime_name.log | wc -l)
+	old_anime_num=$(cat /tmp/old_anime_name.log | wc -l)
 
 	if [[ "$anime_num" == "0" ]];then
 		echo -e "$green 动漫文件夹空空如也，你在逗我。。。。$white"
 		exit 0
 	fi
 
-	for anime_name in `cat /tmp/anime_name.log`
+
+	#开始重命名文件夹（解决空格问题）
+	for i in `cat $dir_file/config/filter.txt`
 	do
-		cd $anime_file/$anime_name
+		sed -i "s/$i//g" /tmp/anime_name.log
+	done
+	sed -i "s/^[[ \t]]*//g" /tmp/anime_name.log
+	sed -i "s/ //g" /tmp/anime_name.log
+
+	while [[ "$old_anime_num" -gt 0 ]];do
+		anime_name=$(cat /tmp/anime_name.log | awk -v a="$old_anime_num" 'NR==a{print $0}')
+		old_anime_name=$(cat /tmp/old_anime_name.log | awk -v a="$old_anime_num" 'NR==a{print $0}')
+
+		if [[ "$old_anime_name" == "$anime_name" ]];then
+			echo "$anime_name 一样，不做改变"
+		else
+			mv $anime_file/"$old_anime_name" $anime_file/"$anime_name"
+		fi
+
+		old_anime_num=$(expr $old_anime_num - 1)
+	done
+
+	num="1"
+	while [[ `expr $anime_num + 1` -gt "$num" ]];do
+		anime_name=$(cat /tmp/anime_name.log | awk -v a="$num" 'NR==a{print $0}')
+		cd $anime_file/"$anime_name"
 		ls ./ >/tmp/anime_seasons.log
 		anime_seasons_num=$(cat /tmp/anime_seasons.log | grep -E "S01|S02|S03|S04|S05|S06|S07|S08|S09|S10"| wc -l)
 		if [[ "$anime_seasons_num" == "0" ]];then
@@ -159,14 +184,27 @@ anime() {
 				while [[ `expr $anime_content_num + 1` -gt "$num1" ]];do
 					anime_content=$(cat /tmp/anime_content.log | awk -v a="$num1" 'NR==a{print $0}')
 					echo $anime_content > /tmp/anime_content_sort.log
+					echo $anime_content > /tmp/old_anime_content_sort.log
+
 					for i in `cat $dir_file/config/filter.txt`
 					do
 						sed -i "s/$i//g" /tmp/anime_content_sort.log 
 					done
+					sed -i "s/^[[ \t]]*//g" /tmp/anime_content_sort.log
+					sed -i "s/ //g" /tmp/anime_content_sort.log
+
+					anime_content_sort=$(cat /tmp/anime_content_sort.log )
+					old_anime_content_sort=$(cat /tmp/old_anime_content_sort.log)
+
+					if [[ "$old_anime_content_sort" == "$anime_content_sort" ]];then
+						echo ""
+					else
+						mv "$old_anime_content_sort" "$anime_content_sort"
+					fi
 
 					E="E"
 					anime_content_if=$(echo "$anime_content" | grep "$anime_name" | wc -l )
-					anime_content_if2=$(echo "$anime_content" | grep "$anime_name $anime_seasons$E" | wc -l )
+					anime_content_if2=$(echo "$anime_content" | grep "$anime_name$anime_seasons$E" | wc -l )
 
 					if [[ "$anime_content_if" -ge "1" ]];then
 						if [[ "$anime_content_if2" -ge "1" ]];then
@@ -174,23 +212,24 @@ anime() {
 							echo -e "$yellow【$anime_content_sort】$white 已经修改过，不再操作"
 							num1=$(expr $num1 + 1)
 						else
-							anime_content_sort=$(cat /tmp/anime_content_sort.log  | sed "s/^[[ \t]]*//g" | sed "s/ //g" | sed "s/$anime_name/$anime_name $anime_seasons$E/")
+							anime_content_sort=$(cat /tmp/anime_content_sort.log | sed "s/$anime_name/$anime_name$anime_seasons$E/")
 							echo -e "开始将旧文件$yellow$anime_content$white 重命名为 $green$anime_content_sort$white"
 							mv "$anime_content" "$anime_content_sort"
 							num1=$(expr $num1 + 1)
 						fi
 					else
-							anime_content_sort=$(cat /tmp/anime_content_sort.log  | sed "s/^[[ \t]]*//g" | sed "s/ //g" | sed "s/^/$anime_name $anime_seasons$E/")
+							anime_content_sort=$(cat /tmp/anime_content_sort.log | sed "s/^/$anime_name$anime_seasons$E/")
 							echo -e "开始将旧文件$yellow$anime_content$white 重命名为 $green$anime_content_sort$white"
 							mv "$anime_content" "$anime_content_sort"
 							num1=$(expr $num1 + 1)
 					fi
 				done
 				echo ""
-				cd $anime_file/$anime_name
+				cd $anime_file/"$anime_name"
 			done
+			num=$(expr $num + 1)
 			echo ""
-			cd $anime_file/$anime_name
+			cd $anime_file/"$anime_name"
 	done
 
 }
