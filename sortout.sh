@@ -101,7 +101,7 @@ movie() {
 				echo "没有nfo文件跳过"
 			else
 				
-				sed -i "s/$movie_content/$movie_content_sort/g" $movie_file/$movie_file_name_sort/$nfo_if
+				sudo sed -i "s/$movie_content/$movie_content_sort/g" $movie_file/$movie_file_name_sort/$nfo_if
 			fi
 			movie_content_num=$(expr $movie_content_num - 1)
 		done
