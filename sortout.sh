@@ -182,16 +182,17 @@ anime() {
 				num1="1"
 				echo -e "$green[$anime_name $anime_seasons]$white"
 				while [[ `expr $anime_content_num + 1` -gt "$num1" ]];do
-					anime_content=$(cat /tmp/anime_content.log | awk -v a="$num1" 'NR==a{print $0}')
-					echo $anime_content > /tmp/anime_content_sort.log
-					echo $anime_content > /tmp/old_anime_content_sort.log
+					cat /tmp/anime_content.log | awk -v a="$num1" 'NR==a{print $0}' > /tmp/anime_content_sort.log
+					cat /tmp/anime_content.log | awk -v a="$num1" 'NR==a{print $0}' > /tmp/old_anime_content_sort.log
 
-					for i in `cat $dir_file/config/filter.txt`
-					do
-						sed -i "s/$i//g" /tmp/anime_content_sort.log 
-					done
 					sed -i "s/^[[ \t]]*//g" /tmp/anime_content_sort.log
 					sed -i "s/ //g" /tmp/anime_content_sort.log
+					filter_num=$(cat $dir_file/config/filter.txt | wc -l)
+					while [[ $filter_num -gt 0 ]];do
+						filter_content=$(cat $dir_file/config/filter.txt | awk -v a="$filter_num" 'NR==a{print $0}')
+						sed -i "s/$filter_content//g" /tmp/anime_content_sort.log
+						filter_num=$(expr $filter_num - 1)
+					done
 
 					anime_content_sort=$(cat /tmp/anime_content_sort.log )
 					old_anime_content_sort=$(cat /tmp/old_anime_content_sort.log)
@@ -203,6 +204,7 @@ anime() {
 					fi
 
 					E="E"
+					anime_content=$(cat /tmp/anime_content.log | awk -v a="$num1" 'NR==a{print $0}')
 					anime_content_if=$(echo "$anime_content" | grep "$anime_name" | wc -l )
 					anime_content_if2=$(echo "$anime_content" | grep "$anime_name$anime_seasons$E" | wc -l )
 
