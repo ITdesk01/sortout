@@ -194,7 +194,7 @@ anime() {
 						filter_num=$(expr $filter_num - 1)
 					done
 
-					anime_content_sort=$(cat /tmp/anime_content_sort.log )
+					anime_content_sort=$(cat /tmp/anime_content_sort.log)
 					old_anime_content_sort=$(cat /tmp/old_anime_content_sort.log)
 
 					if [[ "$old_anime_content_sort" == "$anime_content_sort" ]];then
@@ -204,7 +204,7 @@ anime() {
 					fi
 
 					E="E"
-					anime_content=$(cat /tmp/anime_content.log | awk -v a="$num1" 'NR==a{print $0}')
+					anime_content=$(cat /tmp/anime_content_sort.log)
 					anime_content_if=$(echo "$anime_content" | grep "$anime_name" | wc -l )
 					anime_content_if2=$(echo "$anime_content" | grep "$anime_name$anime_seasons$E" | wc -l )
 
