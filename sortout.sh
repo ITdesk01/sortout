@@ -168,8 +168,8 @@ anime() {
 	while [[ `expr $anime_num + 1` -gt "$num" ]];do
 		anime_name=$(cat /tmp/anime_name.log | awk -v a="$num" 'NR==a{print $0}')
 		cd $anime_file/"$anime_name"
-		ls ./ >/tmp/anime_seasons.log
-		anime_seasons_num=$(cat /tmp/anime_seasons.log | grep -E "S01|S02|S03|S04|S05|S06|S07|S08|S09|S10"| wc -l)
+		ls ./ | grep -v "torrent" >/tmp/anime_seasons.log
+		anime_seasons_num=$(cat /tmp/anime_seasons.log | grep -E "S00|S01|S02|S03|S04|S05|S06|S07|S08|S09|S10"| wc -l)
 		if [[ "$anime_seasons_num" == "0" ]];then
 			echo -e "$yellow 【$anime_name】$green文件夹,没有分几季，暂停脚本$white"
 			exit 0
